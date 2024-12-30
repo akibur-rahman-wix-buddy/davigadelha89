@@ -14,23 +14,39 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = Category::latest();
-
+        $data = Category::latest();
         if ($request->ajax()) {
-            return DataTables::of($categories)
+            return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('status', function ($category) {
-                    $checked = $category->status == 'active' ? 'checked' : '';
-                    return '<div class="switch">
-                                <label>
-                                    <input type="checkbox" ' . $checked . ' onclick="toggleStatus(' . $category->id . ')">
-                                    <span class="lever"></span>
-                                </label>
-                            </div>';
+                ->addColumn('status', function ($data) {
+                    $status = '';
+                    $status .= '<div class="switch-sm icon-state">';
+                    $status .= '<label class="switch">';
+                    $status .= '<input onclick="showStatusChangeAlert(' . $data->id . ')" type="checkbox" class="form-check-input" id="customSwitch' . $data->id . '" getAreaid="' . $data->id . '" name="status"';
+
+                    // Check if the status is active
+                    if ($data->status == "active") {
+                        $status .= ' checked';
+                    }
+
+                    $status .= '>';
+                    $status .= '<span class="switch-state"></span>'; // This is the visual switch
+                    $status .= '</label>';
+                    $status .= '</div>';
+                    $status .= '</div>';
+
+                    return $status;
                 })
-                ->addColumn('action', function ($category) {
-                    return '<a href="' . route('categories.edit', $category->id) . '" class="btn btn-sm btn-primary">Edit</a>
-                            <a href="javascript:void(0)" onclick="deleteCategory(' . $category->id . ')" class="btn btn-sm btn-danger">Delete</a>';
+                ->addColumn('action', function ($data) {
+
+                    return '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                  <a href="' . route('category.edit',  $data->id) . '" type="button" class="action edit text-success" title="Edit">
+                                  <i class="icon-pencil-alt"></i>
+                                  </a>&nbsp;
+                                  <a href="#" onclick="showDeleteConfirm(' . $data->id . ')" type="button" class="action delete text-danger" title="Delete">
+                                  <i class="icon-trash"></i>
+                                </a>
+                                </div>';
                 })
                 ->rawColumns(['status', 'action'])
                 ->make(true);
@@ -38,6 +54,7 @@ class CategoryController extends Controller
 
         return view('backend.layouts.category.index');
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -99,18 +116,13 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+
+
+    public function destroy($id)
     {
-        $category = Category::find($id);
+        $data = Category::findOrFail($id);
 
-        if ($category->products()->exists()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Cannot delete category with associated products.',
-            ]);
-        }
-
-        $category->delete();
+        $data->delete();
 
         return response()->json([
             'success' => true,
@@ -118,13 +130,12 @@ class CategoryController extends Controller
         ]);
     }
 
-
     /**
      * Update the status of a category.
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
-     */    
+     */
     public function status($id)
     {
         $data = Category::findOrFail($id);
@@ -147,5 +158,4 @@ class CategoryController extends Controller
             ]);
         }
     }
-    
 }

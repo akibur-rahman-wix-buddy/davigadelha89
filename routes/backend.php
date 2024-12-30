@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\Backend\Category\CategoryController;
 use App\Http\Controllers\Web\Backend\Settings\CustomScriptController;
 use App\Http\Controllers\Web\Backend\Settings\DynamicPageController;
 use App\Http\Controllers\Web\Backend\Settings\MailSettingController;
@@ -54,5 +55,18 @@ Route::get('/custom-script/edit/{id}', [CustomScriptController::class, 'edit'])-
 Route::post('/custom-script/update/{id}', [CustomScriptController::class, 'update'])->name('settings.custom-script.update');
 Route::get('/custom-script/status/{id}', [CustomScriptController::class, 'status'])->name('settings.custom-script.status');
 Route::delete('/custom-script/destroy/{id}', [CustomScriptController::class, 'destroy'])->name('settings.custom-script.destroy');
+
+
+//!! Route for Category Controller
+Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
+Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
+Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
+Route::get('/category/show/{id}', [CategoryController::class, 'show'])->name('category.show');
+Route::get('/category/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
+Route::put('/category/update/{id}', [CategoryController::class, 'update'])->name('category.update');
+Route::get('/category/status/{id}', [CategoryController::class, 'status'])->name('category.status');
+Route::delete('/category/destroy/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+
+
 
 });
