@@ -18,7 +18,7 @@
                             @if (!empty($system->logo))
                                 <img class="mb-3" width="150" height="100px" src="{{ asset($system->logo ?? "") }}" alt="logo" />
                             @else
-                                <img class="img-fluid for-light" src="{{asset('backend/images/logo/bag-logo.png')}}" alt="looginpage">
+                                <img class="img-fluid for-light" src="{{asset('backend/images/logo/img34.png')}}" alt="looginpage">
                             @endif
                         </a>
                     </div>

@@ -4,11 +4,11 @@
 @endphp
 
 
-<link rel="shortcut icon" type="image/x-icon" href="{{ $systemSetting->favicon ?? asset('backend/images/logo/bag-logo.png') }}" />
+<link rel="shortcut icon" type="image/x-icon" href="{{ $systemSetting->favicon ?? asset('backend/images/logo/img34.png') }}" />
 
 
 
-<link rel="icon" href="{{asset('backend/images/favicon/favicon.png')}}" type="image/x-icon">
+<link rel="icon" href="{{asset('backend/images/favicon/image 13.png')}}" type="image/x-icon">
 
 
 <link rel="preconnect" href="https://fonts.googleapis.com/">
