@@ -1,61 +1,73 @@
-<script src="{{ asset('backend/assets/js/datatables/jquery-3.7.0.js') }}"></script>
-<script src='{{ asset('backend/assets/libs/choices.js/public/assets/scripts/choices.min.js') }}'></script>
-<script src="{{ asset('backend/assets/libs/%40popperjs/core/umd/popper.min.js') }}"></script>
-<script src="{{ asset('backend/assets/libs/tippy.js/tippy-bundle.umd.min.js') }}"></script>
-<script src="{{ asset('backend/assets/libs/simplebar/simplebar.min.js') }}"></script>
-<script src="{{ asset('backend/assets/libs/prismjs/prism.js') }}"></script>
-<script src="{{ asset('backend/assets/libs/lucide/umd/lucide.js') }}"></script>
-<script src="{{ asset('backend/assets/js/tailwick.bundle.js') }}"></script>
-<!--apexchart js-->
-<script src="{{ asset('backend/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
 
-<!--dashboard ecommerce init js-->
-<script src="{{ asset('backend/assets/js/pages/dashboards-ecommerce.init.js') }}"></script>
+<!-- latest jquery-->
+<script src="{{asset('backend/js/jquery-3.6.0.min.js')}}"></script>
 
-<!-- App js -->
-<script src="{{ asset('backend/assets/js/app.js') }}"></script>
+<!-- Bootstrap js-->
+<script src="{{asset('backend/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+<!-- feather icon js-->
+<script src="{{asset('backend/js/icons/feather-icon/feather.min.js')}}"></script>
+<script src="{{asset('backend/js/icons/feather-icon/feather-icon.js')}}"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-<!-- Toastr JS -->
+<!-- scrollbar js-->
+<script src="{{asset('backend/js/scrollbar/simplebar.js')}}"></script>
+<script src="{{asset('backend/js/scrollbar/custom.js')}}"></script>
+
+
+<!-- Sidebar jquery-->
+
+<script src="{{asset('backend/js/config.js')}}"></script>
+<script src="{{asset('backend/js/sidebar-menu.js')}}"></script>
+
+<script src="{{asset('backend/js/notify/bootstrap-notify.min.js')}}"></script>
+<script src="{{asset('backend/js/icons/icons-notify.js')}}"></script>
+
+
+<script src="{{asset('backend/js/dashboard/default.js')}}"></script>
+{{-- //for notification --}}
+<script>
+    var notifyMessage = @json(session('notify-success'));
+    var notifyMessageWarning = @json(session('notify-warning'));
+</script>
+<script src="{{asset('backend/js/notify/index.js')}}"></script>
+
+{{--datatable--}}
+<script src="{{asset('backend/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('backend/js/datatable/datatables/datatable.custom.js')}}"></script>
+<script src="{{asset('backend/js/tooltip-init.js')}}"></script>
+
+
+
+{{-- dropify start --}}
+
+<script src="{{ asset('backend/js/dropify.min.js') }}"></script>
 <script>
     $(document).ready(function() {
-        toastr.options = {
-            'closeButton': true,
-            'debug': true,
-            'newestOnTop': true,
-            'progressBar': false,
-            'positionClass': 'toast-top-center',
-            'preventDuplicates': true,
-            'showDuration': '1000',
-            'hideDuration': '1000',
-            'timeOut': '5000', 
-            'extendedTimeOut': '1000', 
-            'showEasing': 'linear',
-            'hideEasing': 'linear',
-            'showMethod': 'slideDown',
-            'hideMethod': 'slideUp',
-            'hover' : false,
-        };
-
-        @if (Session::has('t-success'))
-            toastr.success("{{ session('t-success') }}");
-        @endif
-
-        @if (Session::has('t-error'))
-            toastr.error("{{ session('t-error') }}");
-        @endif
-
-        @if (Session::has('t-info'))
-            toastr.info("{{ session('t-info') }}");
-        @endif
-
-        @if (Session::has('t-warning'))
-            toastr.warning("{{ session('t-warning') }}");
-        @endif
+        $('.dropify').dropify();
     });
 </script>
 
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
+{{-- dropify end --}}
+
+
+{{-- sweetalert --}}
+<script src="{{ asset('backend/cdn/js/sweetalert2@11.js') }}"></script>
+
+
+<script src="{{ asset('backend/js/ckeditor.js') }}"></script>
+
+
+<!-- Template js-->
+<script src="{{asset('backend/js/script.js')}}"></script>
+
 @stack('scripts')
+
+<!-- login js-->

@@ -1,0 +1,58 @@
+<?php
+
+use App\Http\Controllers\Web\Backend\Settings\CustomScriptController;
+use App\Http\Controllers\Web\Backend\Settings\DynamicPageController;
+use App\Http\Controllers\Web\Backend\Settings\MailSettingController;
+use App\Http\Controllers\Web\Backend\Settings\ProfileController;
+use App\Http\Controllers\Web\Backend\Settings\StripeSettingController;
+use App\Http\Controllers\Web\Backend\Settings\SystemSettingController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Web\Backend\Dashboard\DashboardController;
+
+
+
+
+
+Route::middleware('auth')->group(function () {
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+
+////Routes for Settings
+
+//Route for SystemSettingController
+Route::get('/system-setting', [SystemSettingController::class, 'index'])->name('settings.system.index');
+Route::post('/system-setting/', [SystemSettingController::class, 'update'])->name('settings.system.update');
+
+//Route for ProfileController
+Route::get('/profile', [ProfileController::class, 'showProfile'])->name('settings.profile');
+Route::post('/update-profile', [ProfileController::class, 'updateProfile'])->name('settings.update-profile');
+Route::post('/update-profile-password', [ProfileController::class, 'updatePassword'])->name('settings.update-password');
+
+//Route for MailSettingController
+Route::get('/mail-setting', [MailSettingController::class, 'index'])->name('settings.mail');
+Route::post('/mail-setting', [MailSettingController::class, 'update'])->name('settings.mail-update');
+
+//Route for DynamicPageController
+Route::get('/dynamic-page', [DynamicPageController::class, 'index'])->name('settings.dynamic-page.index');
+Route::get('/dynamic-page/create', [DynamicPageController::class, 'create'])->name('settings.dynamic-page.create');
+Route::post('/dynamic-page/store', [DynamicPageController::class, 'store'])->name('settings.dynamic-page.store');
+Route::get('/dynamic-page/edit/{id}', [DynamicPageController::class, 'edit'])->name('settings.dynamic-page.edit');
+Route::post('/dynamic-page/update/{id}', [DynamicPageController::class, 'update'])->name('settings.dynamic-page.update');
+Route::delete('/dynamic-page/delete/{id}', [DynamicPageController::class, 'destroy'])->name('settings.dynamic-page.destroy');
+Route::get('/dynamic-page/status/{id}', [DynamicPageController::class, 'status'])->name('settings.dynamic-page.status');
+
+//Route for StripeSettingController
+Route::get('/stripe-setting', [StripeSettingController::class, 'index'])->name('settings.stripe.index');
+Route::post('/stripe-setting', [StripeSettingController::class, 'update'])->name('settings.stripe.update');
+
+//Route for CustomScriptController
+Route::get('/custom-script', [CustomScriptController::class, 'index'])->name('settings.custom-script.index');
+Route::get('/custom-script/create', [CustomScriptController::class, 'create'])->name('settings.custom-script.create');
+Route::post('/custom-script/store', [CustomScriptController::class, 'store'])->name('settings.custom-script.store');
+Route::get('/custom-script/edit/{id}', [CustomScriptController::class, 'edit'])->name('settings.custom-script.edit');
+Route::post('/custom-script/update/{id}', [CustomScriptController::class, 'update'])->name('settings.custom-script.update');
+Route::get('/custom-script/status/{id}', [CustomScriptController::class, 'status'])->name('settings.custom-script.status');
+Route::delete('/custom-script/destroy/{id}', [CustomScriptController::class, 'destroy'])->name('settings.custom-script.destroy');
+
+});
