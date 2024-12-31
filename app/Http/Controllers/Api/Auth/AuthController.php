@@ -181,6 +181,23 @@ class AuthController extends Controller
         return response()->json(['message' => 'Successfully logged out']);
     }
 
+//    public function logout()
+//    {
+//        try {
+//            auth()->logout(); // Invalidate the token
+//            return response()->json([
+//                'success' => true,
+//                'message' => 'Successfully logged out'
+//            ]);
+//        } catch (Exception $e) {
+//            return response()->json([
+//                'success' => false,
+//                'message' => 'Failed to log out, please try again'
+//            ], 500);
+//        }
+//    }
+
+
     public function refresh()
     {
         $newToken = JWTAuth::refresh();
