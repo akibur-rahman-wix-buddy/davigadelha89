@@ -201,6 +201,15 @@
                     </li>
 
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                            class="sidebar-link sidebar-title {{ Request::routeIs('course.*') ? 'active open' : ' ' }}"
+                            href="javascript:void(0)"><i data-feather="box"></i><span>Courses</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a class="{{ Request::routeIs('course.index') ? 'active' : ' ' }}"
+                                    href="{{ route('course.index') }}">Course Lists</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
                             class="sidebar-link sidebar-title {{ Request::routeIs('settings.*') ? 'active open' : '' }}"
                             href="javascript:void(0)"><i data-feather="settings"></i><span>Settings</span></a>
                         <ul class="sidebar-submenu">

@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('workout_snack')->nullable(); 
             $table->string('dinner_meal')->nullable(); 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
