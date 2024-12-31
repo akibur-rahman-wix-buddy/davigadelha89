@@ -38,14 +38,16 @@ class UserSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => Hash::make('12345678'),
             'role' => 'admin',
-            'profile_image' => 'backend/images/avtar/3.jpg',
+            'avatar' => 'backend/images/avtar/3.jpg',
+//            'profile_image' => 'backend/images/avtar/3.jpg',
         ]);
         DB::table('users')->insert([
             'name' => 'User',
             'email' => 'user@gmail.com',
             'role' => 'user',
             'password' => Hash::make('12345678'),
-            'profile_image' => 'backend/images/avtar/16.jpg',
+            'avatar' => 'backend/images/avtar/16.jpg',
+//            'profile_image' => 'backend/images/avtar/16.jpg',
         ]);
     }
 }
