@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\SocialAuthController;
+use App\Http\Controllers\Api\SearchController;
 
 
 /*
@@ -26,7 +27,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/verify/registration', [AuthController::class, 'verifyRegistrationOtp']);
-Route::post('/resend/registration/otp', [AuthController::class, 'resendRegistrationOtp']); 
+Route::post('/resend/registration/otp', [AuthController::class, 'resendRegistrationOtp']);
 
 Route::post('/forgot-password', [AuthController::class, 'sendResetOtp']);
 Route::post('/verify-otp', [AuthController::class, 'verifyResetOtp']);
@@ -47,7 +48,10 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
 
-});
 
+//    Route::get('/search', [SearchController::class, 'search']);
+
+});
+Route::get('/search', [SearchController::class, 'search']);
 
 
