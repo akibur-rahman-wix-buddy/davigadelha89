@@ -47,12 +47,6 @@
                                         <th>Image</th>
                                         <th>Price </th>
                                         <th>Status</th>
-
-                                        <th> L Video</th>
-                                        <th>L Yoga</th>
-                                        <th>L Break</th>
-                                        <th>L Brackfast</th>
-                                        <th>L Dinner</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -106,8 +100,8 @@
                             searchable: false
                         },
                         {
-                            data: 'name',
-                            name: 'name',
+                            data: 'title',
+                            name: 'title',
                             orderable: true,
                             searchable: true
                         },
@@ -138,36 +132,6 @@
                         {
                             data: 'status',
                             name: 'status',
-                            orderable: true,
-                            searchable: true
-                        },                        
-                        {
-                            data: 'video',
-                            name: 'video',
-                            orderable: true,
-                            searchable: true
-                        },
-                        {
-                            data: 'total_yoga',
-                            name: 'total_yoga',
-                            orderable: true,
-                            searchable: true
-                        },
-                        {
-                            data: 'break_time',
-                            name: 'break_time',
-                            orderable: true,
-                            searchable: true
-                        },
-                        {
-                            data: 'morning_meal',
-                            name: 'morning_meal',
-                            orderable: true,
-                            searchable: true
-                        },
-                        {
-                            data: 'dinner_meal',
-                            name: 'dinner_meal',
                             orderable: true,
                             searchable: true
                         },
