@@ -16,7 +16,7 @@
     @include('backend.partials.styles')
 
 </head>
-<body onload="startTime()">
+<body onload="startTime()" class="dark-only">
 <!-- tap on top starts-->
 <div class="tap-top"><i data-feather="chevrons-up"></i></div>
 <!-- tap on tap ends-->
