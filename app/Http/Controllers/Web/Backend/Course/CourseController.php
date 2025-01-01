@@ -92,7 +92,6 @@ class CourseController extends Controller
             'title' => 'required|string|max:255',
             'body' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:20348',
-            'price' => 'required|numeric|min:0',
 
 
             'lessons.*.title' => 'required|string|max:255',
@@ -114,7 +113,6 @@ class CourseController extends Controller
         $data->category_id = $request->category_id;
         $data->title = $request->title;
         $data->description = strip_tags($request->body);
-        $data->price = $request->price;
 
         //! Image store in local
         $featuredImage = Helper::fileUpload($request->file('image'), 'product-image', $request->image);

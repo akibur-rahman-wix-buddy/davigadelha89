@@ -45,7 +45,6 @@
                                         <th>Title </th>
                                         <th>Description </th>
                                         <th>Image</th>
-                                        <th>Price </th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -120,12 +119,6 @@
                         {
                             data: 'image',
                             name: 'image',
-                            orderable: true,
-                            searchable: true
-                        },
-                        {
-                            data: 'price',
-                            name: 'price',
                             orderable: true,
                             searchable: true
                         },

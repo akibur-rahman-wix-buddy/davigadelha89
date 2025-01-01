@@ -114,16 +114,7 @@
                                         @enderror
                                     </div>
                                 </div>
-
-                                <div class="col-12">
-                                    <div class="mb-3">
-                                        <label for="price" class="form-label f-w-500">Price :</label>
-                                        <textarea class="form-control @error('price') is-invalid @enderror" placeholder="price" name="price" id="price">{{ old('price') }}</textarea>
-                                        @error('price')
-                                            <div style="color: red">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
+                                
 
                                 <!-- Lesson Fields Start Here -->
                                 <div class="col-12">
