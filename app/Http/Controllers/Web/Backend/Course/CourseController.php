@@ -65,7 +65,7 @@ class CourseController extends Controller
                 ->make(true);
         }
 
-        return view('backend.layouts.course.index'); 
+        return view('backend.layouts.course.index');
     }
 
 
@@ -90,12 +90,13 @@ class CourseController extends Controller
         $validatedData = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'title' => 'required|string|max:255',
-            'description' => 'required|string',
+            'body' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:20348',
             'price' => 'required|numeric|min:0',
 
+
             'lessons.*.title' => 'required|string|max:255',
-            'lessons.*.description' => 'nullable|string',
+            'lessons.*.body' => 'nullable|string',
             'lessons.*.video' => 'nullable|mimes:mp4,mkv,avi,flv|max:51200',
             'lessons.*.total_yoga' => 'nullable|integer|min:0',
             'lessons.*.break_time' => 'nullable|integer|min:0',
@@ -106,11 +107,13 @@ class CourseController extends Controller
             'lessons.*.dinner_meal' => 'nullable|string|max:255',
         ]);
 
+        // dd($request->all());
+
         //! Create the course
         $data = new Course();
         $data->category_id = $request->category_id;
         $data->title = $request->title;
-        $data->description = $request->description;
+        $data->description = strip_tags($request->body);
         $data->price = $request->price;
 
         //! Image store in local
@@ -131,12 +134,12 @@ class CourseController extends Controller
                 if (isset($lessonData['video']) && $lessonData['video']) {
                     $videoFile = $lessonData['video'];
                     $videoPath = $videoFile ? Helper::videoUpload($videoFile, 'lesson-video', $lessonData['title']) : null;
-                }              
+                }
 
                 //! Create the lesson
                 $data->lessons()->create([
                     'title' => $lessonData['title'],
-                    'description' => $lessonData['description'],
+                    'description' => strip_tags($lessonData['body']),
                     'video' => $videoPath,
                     'total_yoga' => $lessonData['total_yoga'],
                     'break_time' => $lessonData['break_time'],

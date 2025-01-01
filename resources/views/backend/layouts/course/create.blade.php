@@ -148,7 +148,7 @@
                                                             <label for="lesson_description" class="form-label">
                                                                 Lesson Description :
                                                             </label>
-                                                            <textarea id="body" name="body" class="ck-editor form-control">{{ old('body') }}</textarea>
+                                                            <textarea id="body" name="lessons[0][body]" class="ck-editor form-control">{{ old('body') }}</textarea>
                                                         </div>
                                                     </div>
 
@@ -284,7 +284,7 @@
                     <div class="col-12">
                         <div class="mb-3">
                             <label for="lesson_description" class="form-label">Lesson Description</label>
-                            <textarea id="lesson_description_${lessonIndex}" name="lessons[${lessonIndex}][description]" class="ck-editor form-control"></textarea>
+                            <textarea id="lesson_description_${lessonIndex}" name="lessons[${lessonIndex}][body]" class="ck-editor form-control"></textarea>
                         </div>
                     </div>
 
