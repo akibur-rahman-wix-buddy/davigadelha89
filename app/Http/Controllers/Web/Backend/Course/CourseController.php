@@ -7,7 +7,9 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\lesson;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
 {
@@ -21,8 +23,9 @@ class CourseController extends Controller
         if ($request->ajax()) {
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('category_name', function ($query) {
-                    return $query->category->title; // Assuming categories have a 'title' column
+                ->addColumn('category', function ($data) {
+
+                    return $data->category->name;
                 })
                 ->addColumn('status', function ($data) {
                     $status = '<div class="switch-sm icon-state">';
@@ -50,7 +53,7 @@ class CourseController extends Controller
                           </a>
                         </div>';
                 })
-                ->rawColumns(['status', 'action'])
+                ->rawColumns(['status', 'action', 'category'])
                 ->make(true);
         }
 
@@ -65,16 +68,17 @@ class CourseController extends Controller
     {
         $categories = Category::all();
         $lessons = lesson::all();
-        return view('backend.layouts.course.create' , compact('categories', 'lessons'));
+        $courses = Course::all();
+        return view('backend.layouts.course.create', compact( 'lessons', 'courses', 'categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+
+    
+
+
 
     /**
      * Display the specified resource.

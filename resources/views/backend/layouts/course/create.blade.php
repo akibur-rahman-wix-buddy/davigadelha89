@@ -45,7 +45,7 @@
                                     data-bs-toggle="card-remove"><i class="fe fe-x"></i>
                                 </a>
                             </div>
-                        </div>
+                        </div>                        
 
                         <div class="card-body">
                             <div class="row">
@@ -127,7 +127,7 @@
                                                     <div class="col-12">
                                                         <div class="mb-3">
                                                             <label for="lesson_video" class="form-label">Video :</label>
-                                                            <input type="file" class="form-control"
+                                                            <input type="file" class="form-control dropify"
                                                                 name="lessons[0][video]">
                                                         </div>
                                                     </div>
