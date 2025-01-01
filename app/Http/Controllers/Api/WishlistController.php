@@ -94,12 +94,12 @@ class WishlistController extends Controller
             return [
                 'id' => $item->id,
                 'user_id' => $item->user_id,
-                'product_id' => $item->product_id,
-                'product' => [
-                    'id' => $item->product->id,
-                    'name' => $item->product->name,
-                    'selling_price' => $item->product->selling_price,
-                    'image' => $item->product->image,
+                'course_id' => $item->course_id,
+                'course' => [
+                    'id' => $item->course->id,
+                    'title' => $item->course->title,
+//                    'selling_price' => $item->product->selling_price,
+//                    'image' => $item->product->image,
                 ],
             ];
         });
