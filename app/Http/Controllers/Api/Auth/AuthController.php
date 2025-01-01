@@ -181,6 +181,23 @@ class AuthController extends Controller
         return response()->json(['message' => 'Successfully logged out']);
     }
 
+//    public function logout()
+//    {
+//        try {
+//            auth()->logout(); // Invalidate the token
+//            return response()->json([
+//                'success' => true,
+//                'message' => 'Successfully logged out'
+//            ]);
+//        } catch (Exception $e) {
+//            return response()->json([
+//                'success' => false,
+//                'message' => 'Failed to log out, please try again'
+//            ], 500);
+//        }
+//    }
+
+
     public function refresh()
     {
         $newToken = JWTAuth::refresh();
@@ -219,7 +236,8 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'nullable|string|max:255',
             'email' => "nullable|string|email|max:255|unique:users,email,{$user->id}",
-            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4048'
+//            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4048'
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4048'
         ]);
 
         if ($validator->fails()) {
@@ -229,9 +247,9 @@ class AuthController extends Controller
             ], 400);
         }
 
-        if ($request->hasFile('profile_image')) {
-            $profileImagePath = Helper::fileUpload($request->file('profile_image'), 'profile_images', $user->name);
-            $user->profile_image = $profileImagePath;
+        if ($request->hasFile('avatar')) {
+            $profileImagePath = Helper::fileUpload($request->file('avatar'), 'profile_images', $user->name);
+            $user->avatar = $profileImagePath;
         }
 
         $user->update($request->only('name', 'email'));

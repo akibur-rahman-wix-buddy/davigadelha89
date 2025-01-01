@@ -39,6 +39,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'role' => 'admin',
             'avatar' => 'backend/images/avtar/3.jpg',
+//            'profile_image' => 'backend/images/avtar/3.jpg',
         ]);
         DB::table('users')->insert([
             'name' => 'User',
@@ -46,6 +47,7 @@ class UserSeeder extends Seeder
             'role' => 'user',
             'password' => Hash::make('12345678'),
             'avatar' => 'backend/images/avtar/16.jpg',
+//            'profile_image' => 'backend/images/avtar/16.jpg',
         ]);
     }
 }
