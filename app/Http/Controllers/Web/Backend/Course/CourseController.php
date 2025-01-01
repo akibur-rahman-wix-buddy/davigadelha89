@@ -23,9 +23,8 @@ class CourseController extends Controller
         if ($request->ajax()) {
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('category', function ($data) {
-
-                    return $data->category->name;
+                ->addColumn('category', function ($query) {
+                    return $query->category->name;
                 })
                 ->addColumn('status', function ($data) {
                     $status = '<div class="switch-sm icon-state">';
@@ -76,7 +75,70 @@ class CourseController extends Controller
      * Store a newly created resource in storage.
      */
 
-    
+     public function store(Request $request)
+     {
+         // Validate the request
+         $validatedData = $request->validate([
+             'category_id' => 'required|exists:categories,id',
+             'title' => 'required|string|max:255',
+             'description' => 'required|string',
+             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:20348',
+             'price' => 'required|numeric|min:0',
+ 
+             'lessons.*.title' => 'required|string|max:255',
+             'lessons.*.description' => 'nullable|string',
+             'lessons.*.video' => 'nullable|mimes:mp4,mkv,avi,flv|max:51200', 
+             'lessons.*.total_yoga' => 'nullable|integer|min:0',
+             'lessons.*.break_time' => 'nullable|integer|min:0',
+             'lessons.*.exercise_time' => 'nullable|integer|min:0',
+             'lessons.*.morning_meal' => 'nullable|string|max:255',
+             'lessons.*.lunch_meal' => 'nullable|string|max:255',
+             'lessons.*.workout_snack' => 'nullable|string|max:255',
+             'lessons.*.dinner_meal' => 'nullable|string|max:255',
+         ]);
+ 
+         // Create the course
+         $data = new Course();
+         $data->category_id = $request->category_id;
+         $data->title = $request->title;
+         $data->description = $request->description;
+         if ($request->hasFile('image')) {
+             $imagePath = $request->image->store('course_images', 'public');
+             $data->image = $imagePath;
+         }
+         $data->price = $request->price;
+         $data->save();
+ 
+         $course = Course::latest()->first();
+ 
+         // Handle lessons
+         if ($request->has('lessons')) {
+             foreach ($request->lessons as $lessonData) {
+                 $videoPath = null;
+ 
+                 // Handle lesson video upload
+                 if (isset($lessonData['video']) && $lessonData['video'] instanceof \Illuminate\Http\UploadedFile) {
+                     $videoPath = $lessonData['video']->store('lessons/videos', 'public');
+                 }
+ 
+                 // Create the lesson
+                 $data->lessons()->create([
+                     'title' => $lessonData['title'],
+                     'description' => $lessonData['description'],
+                     'video' => $videoPath,
+                     'total_yoga' => $lessonData['total_yoga'],
+                     'break_time' => $lessonData['break_time'],
+                     'exercise_time' => $lessonData['exercise_time'],
+                     'morning_meal' => $lessonData['morning_meal'],
+                     'lunch_meal' => $lessonData['lunch_meal'],
+                     'workout_snack' => $lessonData['workout_snack'],
+                     'dinner_meal' => $lessonData['dinner_meal'],
+                 ]);
+             }
+         }
+ 
+         return redirect()->route('course.index')->with('success', 'Course created successfully!');
+     }
 
 
 

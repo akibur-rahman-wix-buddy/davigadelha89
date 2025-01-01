@@ -41,6 +41,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>Category </th>
                                         <th>Title </th>
                                         <th>Description </th>
                                         <th>Image</th>
@@ -103,6 +104,12 @@
                             name: 'DT_RowIndex',
                             orderable: false,
                             searchable: false
+                        },
+                        {
+                            data: 'name',
+                            name: 'name',
+                            orderable: true,
+                            searchable: true
                         },
                         {
                             data: 'title',

@@ -45,10 +45,31 @@
                                     data-bs-toggle="card-remove"><i class="fe fe-x"></i>
                                 </a>
                             </div>
-                        </div>                        
+                        </div>
 
                         <div class="card-body">
                             <div class="row">
+
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label for="category_name" class="form-label f-w-500">Category :</label>
+                                        <select name="category_id" class="form-select">
+                                            <option value="">-- Select Type --</option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}"
+                                                    {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                    {{ $category->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+
+                                        @error('category_id')
+                                            <div style="color: red;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label for="title" class="form-label f-w-500">Title :</label>
@@ -135,7 +156,8 @@
                                                     <!-- Additional Inputs -->
                                                     <div class="col-12">
                                                         <div class="mb-3">
-                                                            <label for="total_yoga" class="form-label">Total Yoga :</label>
+                                                            <label for="total_yoga" class="form-label">Total Yoga
+                                                                :</label>
                                                             <input type="number" class="form-control"
                                                                 name="lessons[0][total_yoga]" placeholder="Total Yoga">
                                                         </div>
@@ -175,7 +197,8 @@
 
                                                     <div class="col-12">
                                                         <div class="mb-3">
-                                                            <label for="lunch_meal" class="form-label">Lunch Meal :</label>
+                                                            <label for="lunch_meal" class="form-label">Lunch Meal
+                                                                :</label>
                                                             <input type="text" class="form-control"
                                                                 name="lessons[0][lunch_meal]" placeholder="Lunch Meal">
                                                         </div>
