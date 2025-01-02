@@ -81,7 +81,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12">
+                                {{-- <div class="col-12">
                                     <div class="mb-3">
                                         <label for="description" class="form-label f-w-500">Description :</label>
                                         <input type="text"
@@ -91,6 +91,15 @@
                                         @error('description')
                                             <div style="color: red">{{ $message }}</div>
                                         @enderror
+                                    </div>
+                                </div> --}}
+
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">
+                                            Description :
+                                        </label>
+                                        <textarea id="body" name="body" class="ck-editor form-control">{{ old('body') }}</textarea>
                                     </div>
                                 </div>
 
@@ -105,16 +114,7 @@
                                         @enderror
                                     </div>
                                 </div>
-
-                                <div class="col-12">
-                                    <div class="mb-3">
-                                        <label for="price" class="form-label f-w-500">Price :</label>
-                                        <textarea class="form-control @error('price') is-invalid @enderror" placeholder="price" name="price" id="price">{{ old('price') }}</textarea>
-                                        @error('price')
-                                            <div style="color: red">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
+                                
 
                                 <!-- Lesson Fields Start Here -->
                                 <div class="col-12">
@@ -139,9 +139,7 @@
                                                             <label for="lesson_description" class="form-label">
                                                                 Lesson Description :
                                                             </label>
-                                                            <input type="text" class="form-control"
-                                                                name="lessons[0][description]"
-                                                                placeholder="Lesson Description">
+                                                            <textarea id="body" name="lessons[0][body]" class="ck-editor form-control">{{ old('body') }}</textarea>
                                                         </div>
                                                     </div>
 
@@ -258,7 +256,7 @@
 
 @push('scripts')
     <script>
-        let lessonIndex = 1; // Start with the second lesson (first is index 0)
+        let lessonIndex = 1; //! Start with the second lesson (first is index 0)
 
         $('#add-lesson').on('click', function() {
             let lessonRow = `
@@ -277,18 +275,14 @@
                     <div class="col-12">
                         <div class="mb-3">
                             <label for="lesson_description" class="form-label">Lesson Description</label>
-                            <input type="text"
-                                   class="form-control"
-                                   name="lessons[${lessonIndex}][description]" placeholder="Lesson Description">
+                            <textarea id="lesson_description_${lessonIndex}" name="lessons[${lessonIndex}][body]" class="ck-editor form-control"></textarea>
                         </div>
                     </div>
 
                     <div class="col-12">
                         <div class="mb-3">
                             <label for="lesson_video" class="form-label">Video</label>
-                            <input type="file"
-                                   class="form-control"
-                                   name="lessons[${lessonIndex}][video]">
+                             <input type="file" class="form-control dropify" name="lessons[${lessonIndex}][video]">
                         </div>
                     </div>
 
@@ -365,12 +359,51 @@
         `;
             $('#lesson-fields').append(lessonRow);
             lessonIndex++;
+
+            //! Initialize Dropify for new video input
+            $('.dropify').dropify();
+
+
+            //! Initialize CKEditor for new lesson description textarea
+            ClassicEditor
+                .create(document.querySelector(`#lesson_description_${lessonIndex - 1}`), {
+                    removePlugins: ['CKFinderUploadAdapter', 'CKFinder', 'EasyImage', 'Image', 'ImageCaption',
+                        'ImageStyle', 'ImageToolbar', 'ImageUpload', 'MediaEmbed'
+                    ],
+                    height: '500px'
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
         });
 
-        // Remove lesson functionality
+        //! Remove lesson functionality
         $(document).on('click', '.remove-lesson-btn', function() {
             const lessonId = $(this).data('lesson-id');
             $(`#lesson-row-${lessonId}`).remove();
         });
     </script>
+
+
+    {{-- ck editor start --}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+
+    <script>
+        document.querySelectorAll('.ck-editor').forEach(element => {
+            ClassicEditor
+                .create(element, {
+                    removePlugins: ['CKFinderUploadAdapter', 'CKFinder', 'EasyImage', 'Image', 'ImageCaption',
+                        'ImageStyle',
+                        'ImageToolbar', 'ImageUpload', 'MediaEmbed'
+                    ],
+                    height: '500px'
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    </script>
+
+    {{-- ck editor end --}}
 @endpush

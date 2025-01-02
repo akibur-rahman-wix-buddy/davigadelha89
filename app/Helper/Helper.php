@@ -21,6 +21,21 @@ class Helper
     }
 
 
+
+    public static function videoUpload($file, $folder, $name)
+    {
+        // Check if file is not null
+        if ($file) {
+            $videoName = Str::slug($name) . '.' . $file->extension();
+            $file->move(public_path('uploads/' . $folder), $videoName);
+            $path = 'uploads/' . $folder . '/' . $videoName;
+            return $path;
+        }
+        return null; // Or handle this case as needed
+    }
+
+    
+
     // Make Slug
     public static function makeSlug($modal, $title): string
     {

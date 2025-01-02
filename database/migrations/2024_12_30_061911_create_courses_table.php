@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('title'); 
             $table->text('description'); 
             $table->string('image')->nullable(); 
-            $table->decimal('price', 8, 2); 
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
             $table->softDeletes();
