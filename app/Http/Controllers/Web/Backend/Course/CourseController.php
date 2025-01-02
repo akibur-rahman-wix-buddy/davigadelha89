@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class CourseController extends Controller
 {
@@ -93,7 +94,6 @@ class CourseController extends Controller
             'body' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:20348',
 
-
             'lessons.*.title' => 'required|string|max:255',
             'lessons.*.body' => 'nullable|string',
             'lessons.*.video' => 'nullable|mimes:mp4,mkv,avi,flv|max:51200',
@@ -107,15 +107,14 @@ class CourseController extends Controller
         ]);
 
         // dd($request->all());
-
         //! Create the course
         $data = new Course();
         $data->category_id = $request->category_id;
         $data->title = $request->title;
         $data->description = strip_tags($request->body);
 
-        //! Image store in local
-        $featuredImage = Helper::fileUpload($request->file('image'), 'product-image', $request->image);
+        //! Image store in public folder
+        $featuredImage = Helper::fileUpload($request->file('image'), 'course-image', $request->image);
         $data->image = $featuredImage;
 
 
@@ -126,7 +125,6 @@ class CourseController extends Controller
         //! Handle lessons
         if ($request->has('lessons')) {
             foreach ($request->lessons as $lessonData) {
-
 
                 //! Video Upload
                 if (isset($lessonData['video']) && $lessonData['video']) {
@@ -168,22 +166,146 @@ class CourseController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
+        $data = Course::find($id);
+        // Check if course exists
+        if (!$data) {
+            return redirect()->route('course.index')->with('error', 'Course not found');
+        }
+
+        $categories = Category::all();
+        return view('backend.layouts.course.edit', compact('categories', 'data'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'category_id' => 'nullable|exists:categories,id',
+            'title' => 'required|string|max:255',
+            'body' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4000',
+        ]);
+
+        $data = Course::find($id);
+
+        $data->category_id = $request->category_id;
+        $data->title = $request->title;
+        $data->description = strip_tags($request->body);
+
+
+        // Check if image exists and handle the update
+        if ($request->hasFile('image')) {
+            // Remove old image if it exists
+            if ($data->image && File::exists(storage_path('app/public/' . $data->image))) {
+                File::delete(storage_path('app/public/' . $data->image));
+            }
+
+            // Upload the new image
+            $featuredImage = Helper::fileUpload($request->file('image'), 'course-image', $request->image);
+            $data->image = $featuredImage;
+        }
+
+        $data->save();
+
+
+        // Get the existing lesson IDs for comparison
+        $existingLessonIds = $data->lessons->pluck('id')->toArray();
+
+        // Loop through the lesson data
+        foreach ($request->lessons as $lessonData) {
+            if (isset($lessonData['id']) && in_array($lessonData['id'], $existingLessonIds)) {
+                // Update existing lesson
+                $lesson = Lesson::findOrFail($lessonData['id']);
+            } else {
+                // Create a new lesson
+                $lesson = new Lesson();
+                $lesson->course_id = $data->id;
+            }
+
+
+            //! Process video upload if exists
+            if (isset($lessonData['video']) && $lessonData['video']) {
+                $videoFile = $lessonData['video'];
+                $videoPath = Helper::videoUpload($videoFile, 'lesson-video', $lessonData['title']);
+            } else {
+                // Use the existing lesson video if no new video is uploaded
+                $videoPath = $lessonData['existing_lesson_video'] ?? $lesson->video;
+            }
+
+
+            // Update lesson details
+            $lesson->title = $lessonData['title'];
+            $lesson->description = strip_tags($lessonData['body']);
+            $lesson->video = isset($videoPath) ? $videoPath : $lesson->video;
+            $lesson->total_yoga = $lessonData['total_yoga'];
+            $lesson->break_time = $lessonData['break_time'];
+            $lesson->exercise_time = $lessonData['exercise_time'];
+            $lesson->morning_meal = $lessonData['morning_meal'];
+            $lesson->lunch_meal = $lessonData['lunch_meal'];
+            $lesson->workout_snack = $lessonData['workout_snack'];
+            $lesson->dinner_meal = $lessonData['dinner_meal'];
+
+            $lesson->save();
+        }
+
+        // Optionally delete any remaining lessons  that were not in the request
+        foreach ($existingLessonIds as $existingLessonId) {
+            if (!collect($request->lessons)->contains('id', $existingLessonId)) {
+                $lessonToDelete = Lesson::find($existingLessonId);
+                if ($lessonToDelete) {
+                    $lessonToDelete->delete();
+                }
+            }
+        }
+
+        return redirect()->route('course.index')->with('notify-success', 'Product Updated Successfully');
     }
+    
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $data = Course::findOrFail($id);
+
+        $data->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Deleted successfully.',
+        ]);
+    }
+
+    /**
+     * Update the status of a blog.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function status($id)
+    {
+        $data = Course::findOrFail($id);
+
+        if ($data->status == 'active') {
+            $data->status = 'inactive';
+            $data->save();
+            return response()->json([
+                'success' => false,
+                'message' => 'Unpublished Successfully.',
+                'data' => $data,
+            ]);
+        } else {
+            $data->status = 'active';
+            $data->save();
+            return response()->json([
+                'success' => true,
+                'message' => 'Published Successfully.',
+                'data' => $data,
+            ]);
+        }
     }
 }
