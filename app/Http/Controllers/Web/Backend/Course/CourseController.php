@@ -126,6 +126,7 @@ class CourseController extends Controller
         if ($request->has('lessons')) {
             foreach ($request->lessons as $lessonData) {
 
+
                 //! Video Upload
                 if (isset($lessonData['video']) && $lessonData['video']) {
                     $videoFile = $lessonData['video'];
@@ -263,7 +264,7 @@ class CourseController extends Controller
 
         return redirect()->route('course.index')->with('notify-success', 'Product Updated Successfully');
     }
-    
+
 
     /**
      * Remove the specified resource from storage.
