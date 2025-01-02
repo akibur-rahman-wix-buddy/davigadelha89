@@ -34,7 +34,7 @@ class Helper
         return null; // Or handle this case as needed
     }
 
-    
+
 
     // Make Slug
     public static function makeSlug($modal, $title): string
