@@ -71,10 +71,12 @@ class CategoryController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|unique:categories|max:255',
+            'status' => 'required|in:active,inactive',
         ]);
 
         $category = new Category();
         $category->name = $request->name;
+        $category->status = $request->status;
         $category->save();
 
         return redirect()->route('category.index')->with('notify-success', 'Category Created Successfully');
@@ -103,11 +105,13 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'name' => 'required|unique:categories|max:255',
+            'name' => 'nullable|unique:categories|max:255',
+            'status' => 'nullable|in:active,inactive',
         ]);
 
         $category = Category::find($id);
         $category->name = $request->name;
+        $category->status = $request->status;
         $category->save();
 
         return redirect()->route('category.index')->with('notify-success', 'Category Updated Successfully');

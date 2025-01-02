@@ -210,6 +210,15 @@
                     </li>
 
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                            class="sidebar-link sidebar-title {{ Request::routeIs('pdf.*') ? 'active open' : ' ' }}"
+                            href="javascript:void(0)"><i data-feather="box"></i><span>Agreement File</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a class="{{ Request::routeIs('pdf.index') ? 'active' : ' ' }}"
+                                   href="{{ route('pdf.index') }}">PDF Lists</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
                             class="sidebar-link sidebar-title {{ Request::routeIs('settings.*') ? 'active open' : '' }}"
                             href="javascript:void(0)"><i data-feather="settings"></i><span>Settings</span></a>
                         <ul class="sidebar-submenu">
