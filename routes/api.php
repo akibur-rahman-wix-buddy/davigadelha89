@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\WishlistController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
@@ -50,6 +51,11 @@ Route::group(['middleware' => 'jwt.auth'], function() {
 
 
 //    Route::get('/search', [SearchController::class, 'search']);
+
+    //Wishlist Route
+    Route::post('/wishlist/toggle', [WishlistController::class, 'toggleWishlist']);
+    Route::get('/wishlist/view', [WishlistController::class, 'viewWishlist']);
+    Route::post('/wishlist/clear', [WishlistController::class, 'clearAllCloset']);
 
 });
 Route::get('/search', [SearchController::class, 'search']);
