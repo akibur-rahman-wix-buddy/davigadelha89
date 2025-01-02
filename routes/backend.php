@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Web\Backend\Category\CategoryController;
 use App\Http\Controllers\Web\Backend\Course\CourseController;
+use App\Http\Controllers\Web\Backend\Pdf\PdfController;
 use App\Http\Controllers\Web\Backend\Settings\CustomScriptController;
 use App\Http\Controllers\Web\Backend\Settings\DynamicPageController;
 use App\Http\Controllers\Web\Backend\Settings\MailSettingController;
@@ -78,6 +79,17 @@ Route::middleware('auth')->group(function () {
     Route::put('/course/update/{id}', [CourseController::class, 'update'])->name('course.update');
     Route::get('/course/status/{id}', [CourseController::class, 'status'])->name('course.status');
     Route::delete('/course/destroy/{id}', [CourseController::class, 'destroy'])->name('course.destroy');
+
+
+    //!! Route for Pdf Controller
+    Route::get('/pdf', [PdfController::class, 'index'])->name('pdf.index');
+    Route::get('/pdf/create', [PdfController::class, 'create'])->name('pdf.create');
+    Route::post('/pdf/store', [PdfController::class, 'store'])->name('pdf.store');
+    Route::get('/pdf/show/{id}', [PdfController::class, 'show'])->name('pdf.show');
+    Route::get('/pdf/edit/{id}', [PdfController::class, 'edit'])->name('pdf.edit');
+    Route::put('/pdf/update/{id}', [PdfController::class, 'update'])->name('pdf.update');
+    Route::get('/pdf/status/{id}', [PdfController::class, 'status'])->name('pdf.status');
+    Route::delete('/pdf/destroy/{id}', [PdfController::class, 'destroy'])->name('pdf.destroy');
 
 
 });
