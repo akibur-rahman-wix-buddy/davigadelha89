@@ -16,3 +16,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+.phpactor.json
+.phpunit.result.cache
+/.zed
+/public/uploads
