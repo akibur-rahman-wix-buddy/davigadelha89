@@ -81,19 +81,6 @@
                                     </div>
                                 </div>
 
-                                {{-- <div class="col-12">
-                                    <div class="mb-3">
-                                        <label for="description" class="form-label f-w-500">Description :</label>
-                                        <input type="text"
-                                            class="form-control @error('description') is-invalid @enderror"
-                                            placeholder="Code" name="description" id="description"
-                                            value="{{ old('description') }}">
-                                        @error('description')
-                                            <div style="color: red">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div> --}}
-
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label for="description" class="form-label">
@@ -114,7 +101,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                
+
 
                                 <!-- Lesson Fields Start Here -->
                                 <div class="col-12">
