@@ -126,6 +126,8 @@ class CourseController extends Controller
         if ($request->has('lessons')) {
             foreach ($request->lessons as $lessonData) {
 
+                $videoPath = null;
+
                 //! Video Upload
                 if (isset($lessonData['video']) && $lessonData['video']) {
                     $videoFile = $lessonData['video'];
