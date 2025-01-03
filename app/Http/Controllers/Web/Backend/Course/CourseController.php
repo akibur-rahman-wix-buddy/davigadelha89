@@ -27,7 +27,7 @@ class CourseController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('category', function ($query) {
-                    return $query->category->title;
+                    return $query->category->name;
                 })
 
                 ->addColumn('status', function ($data) {
@@ -150,7 +150,7 @@ class CourseController extends Controller
             }
         }
 
-        return redirect()->route('course.index')->with('success', 'Course created successfully!');
+        return redirect()->route('course.index')->with('notify-success', 'Course created successfully!');
     }
 
 

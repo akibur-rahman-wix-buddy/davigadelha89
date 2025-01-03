@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\PdfController;
 use App\Http\Controllers\Api\WishlistController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +42,12 @@ Route::get('/auth/{provider}/redirect', [SocialAuthController::class, 'redirectT
 Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'handleProviderCallback']);
 
 
+
+
+//Route for Category controller
+Route::get('/category', [CategoryController::class, 'index']);
+
+
 Route::group(['middleware' => 'jwt.auth'], function() {
 
     // ROUTE FOR USER PROFILE UPDATE
@@ -56,6 +64,11 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     Route::post('/wishlist/toggle', [WishlistController::class, 'toggleWishlist']);
     Route::get('/wishlist/view', [WishlistController::class, 'viewWishlist']);
     Route::post('/wishlist/clear', [WishlistController::class, 'clearAllCloset']);
+
+
+    //Pdf Route
+    Route::get('pdfs', [PdfController::class, 'index']);
+    Route::get('pdfs/{id}', [PdfController::class, 'show']);
 
 });
 Route::get('/search', [SearchController::class, 'search']);

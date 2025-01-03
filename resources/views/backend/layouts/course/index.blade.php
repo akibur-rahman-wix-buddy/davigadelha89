@@ -99,8 +99,8 @@
                             searchable: false
                         },
                         {
-                            data: 'title',
-                            name: 'title',
+                            data: 'category',
+                            name: 'category',
                             orderable: true,
                             searchable: true
                         },

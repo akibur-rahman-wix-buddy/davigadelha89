@@ -77,7 +77,7 @@ class SearchController extends Controller
             $categories = Category::where('name', 'LIKE', "%{$query}%")->get(['id', 'name', 'status']);
             $courses = Course::where('title', 'LIKE', "%{$query}%")
                 ->orWhere('description', 'LIKE', "%{$query}%")
-                ->get(['id', 'title', 'description', 'price', 'status', 'category_id']);
+                ->get(['id', 'title', 'description','status', 'category_id']);
             $lessons = Lesson::where('title', 'LIKE', "%{$query}%")
                 ->orWhere('description', 'LIKE', "%{$query}%")
                 ->get(['id', 'title', 'description', 'course_id']);

@@ -3,11 +3,11 @@
 @section('title', 'Course Create')
 
 @push('styles')
-    <style>
-        .ck-editor__editable[role="textbox"] {
-            min-height: 150px;
-        }
-    </style>
+       <style>
+          .ck-editor__editable[role="textbox"] {
+             min-height: 150px;
+          }
+       </style>
 @endpush
 
 @section('content')
@@ -374,21 +374,25 @@
 
 
     {{-- ck editor start --}}
-    <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+        {{--    <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>--}}
+
 
     <script>
         document.querySelectorAll('.ck-editor').forEach(element => {
             ClassicEditor
                 .create(element, {
                     removePlugins: ['CKFinderUploadAdapter', 'CKFinder', 'EasyImage', 'Image', 'ImageCaption',
-                        'ImageStyle',
-                        'ImageToolbar', 'ImageUpload', 'MediaEmbed'
+                        'ImageStyle', 'ImageToolbar', 'ImageUpload', 'MediaEmbed'
                     ],
                     height: '500px'
                 })
                 .catch(error => {
                     console.error(error);
                 });
+        });
+
+        $(document).ready(function() {
+            $('.dropify').dropify();
         });
     </script>
 

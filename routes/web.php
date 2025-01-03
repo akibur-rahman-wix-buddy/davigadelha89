@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\Backend\ClothingController;
 use App\Http\Controllers\Web\Backend\SettingController;
@@ -14,6 +15,31 @@ use App\Http\Controllers\Web\Backend\SettingController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+//live command run
+Route::get('/run-migrate', function () {
+    Artisan::call('migrate');
+    return 'Database migration completed successfully!';
+});
+
+Route::get('/run-fresh-migrate-seed', function () {
+    try {
+        Artisan::call('migrate:fresh --seed');
+        return 'Database refreshed and seeded successfully!';
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});
+
+Route::get('/optimize-clear', function () {
+    try {
+        Artisan::call('optimize:clear');
+        return 'Application cache cleared successfully!';
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});
 
 
 Route::get('/', function () {

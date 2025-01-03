@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    
+
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
@@ -17,6 +17,7 @@ class Category extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'status',
     ];
 
 

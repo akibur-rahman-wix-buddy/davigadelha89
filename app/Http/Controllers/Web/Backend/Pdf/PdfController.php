@@ -11,117 +11,88 @@ use Yajra\DataTables\DataTables;
 
 class PdfController extends Controller
 {
+    /**
+     * Display a listing of the PDFs.
+     *
+     * @param \Illuminate\Http\Request $request
+     */
+
     public function index(Request $request)
     {
         $data = Pdf::latest();
         if ($request->ajax()) {
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn('file_path', function ($data) {
+                    $fileName = basename($data->file_path);
+                    $url = asset($data->file_path);
+                    $pdfIcon = '<i class="fa fa-file-pdf-o text-danger" style="font-size: 18px;"></i>';
+                    return '<a href="' . $url . '" target="_blank" style="text-decoration: none;">' . $pdfIcon . ' ' . $fileName . '</a>';
+                })
                 ->addColumn('status', function ($data) {
-                    $status = '';
-                    $status .= '<div class="switch-sm icon-state">';
+                    $status = '<div class="switch-sm icon-state">';
                     $status .= '<label class="switch">';
-                    $status .= '<input onclick="showStatusChangeAlert(' . $data->id . ')" type="checkbox" class="form-check-input" id="customSwitch' . $data->id . '" getAreaid="' . $data->id . '" name="status"';
-
-                    // Check if the status is active
+                    $status .= '<input onclick="showStatusChangeAlert(' . $data->id . ')" type="checkbox" class="form-check-input" id="customSwitch' . $data->id . '" name="status"';
                     if ($data->status == "active") {
                         $status .= ' checked';
                     }
-
-                    $status .= '>';
-                    $status .= '<span class="switch-state"></span>'; // This is the visual switch
-                    $status .= '</label>';
-                    $status .= '</div>';
-                    $status .= '</div>';
-
+                    $status .= '><span class="switch-state"></span></label></div>';
                     return $status;
                 })
                 ->addColumn('action', function ($data) {
-
-                    return '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                  <a href="' . route('pdf.edit',  $data->id) . '" type="button" class="action edit text-success" title="Edit">
-                                  <i class="icon-pencil-alt"></i>
-                                  </a>&nbsp;
-                                  <a href="#" onclick="showDeleteConfirm(' . $data->id . ')" type="button" class="action delete text-danger" title="Delete">
-                                  <i class="icon-trash"></i>
+                    return '<div class="btn-group btn-group-sm" role="group">
+                                <a href="' . route('pdf.edit', $data->id) . '" class="action edit text-success" title="Edit">
+                                    <i class="icon-pencil-alt"></i>
                                 </a>
-                                </div>';
+                                <a href="#" onclick="showDeleteConfirm(' . $data->id . ')" class="action delete text-danger" title="Delete">
+                                    <i class="icon-trash"></i>
+                                </a>
+                            </div>';
                 })
-                ->rawColumns(['status', 'action'])
+                ->rawColumns(['file_path', 'status', 'action'])
                 ->make(true);
         }
-
         return view('backend.layouts.pdf.index');
     }
 
+    /**
+     * Show the form for creating a new PDF.
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
         return view('backend.layouts.pdf.create');
     }
 
-//    public function store(Request $request)
-//    {
-////        dd($request->all());
-//        $request->validate([
-//            'title' => 'required|string|max:255',
-////            'file_path' => 'required|mimes:pdf|max:2048', // max size 2MB
-//        ]);
-//
-//        $filePath = $request->file('file')->store('pdfs', 'public');
-//
-//        $data = new Pdf();
-//        $data->title = $request->title;
-//        $data->file_path = $filePath;
-//        $data->save();
-//
-//        return redirect()->route('pdf.index')->with('notify-success', 'Pdf Created Successfully');
-//    }
-
-//    public function store(Request $request)
-//    {
-//        $request->validate([
-//            'title' => 'required|string|max:255',
-//            'file_path' => 'required|mimes:pdf|max:2048', // max size 2MB
-//        ]);
-//
-//        // Use the helper method for file upload
-//        $filePath = Helper::fileUpload($request->file('file'), 'pdfs', $request->title);
-//
-//        if (!$filePath) {
-//            return redirect()->back()->withErrors(['file' => 'File upload failed. Please try again.']);
-//        }
-//
-//        $data = new Pdf();
-//        $data->title = $request->title;
-//        $data->file_path = $filePath;
-//        $data->save();
-//
-//        return redirect()->route('pdf.index')->with('notify-success', 'PDF Created Successfully');
-//    }
-
+    /**
+     * Store a newly created PDF in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'file' => 'required|mimes:pdf|max:2048', // Ensure it's a valid PDF file
+            'file' => 'required|mimes:pdf|max:2048',
         ]);
 
-        // Use the helper method to upload the file
         $filePath = Helper::fileUpload($request->file('file'), 'pdfs', $request->title);
 
-        // Save data to the database
         $data = new Pdf();
         $data->title = $request->title;
-        $data->file_path = $filePath; // Path returned from the helper
+        $data->file_path = $filePath;
         $data->save();
 
         return redirect()->route('pdf.index')->with('notify-success', 'PDF Created Successfully');
     }
 
-
-
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified PDF.
+     *
+     * @param string $id
+     * @return \Illuminate\View\View
      */
     public function edit(string $id)
     {
@@ -130,74 +101,54 @@ class PdfController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified PDF in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
      */
-
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'sometimes|string|max:255', // Allow updating just the title
-            'file' => 'sometimes|mimes:pdf|max:2048', // File is optional
+            'title' => 'sometimes|string|max:255',
+            'file' => 'sometimes|mimes:pdf|max:2048',
         ]);
 
-        $data = Pdf::findOrFail($id); // Find the existing record
+        $data = Pdf::findOrFail($id);
 
-        // Update the title if provided
         if ($request->filled('title')) {
             $data->title = $request->title;
         }
 
-        // Handle file upload if a new file is provided
         if ($request->hasFile('file')) {
-            // Delete the old file
             if ($data->file_path && file_exists(public_path($data->file_path))) {
                 unlink(public_path($data->file_path));
             }
-
-            // Upload the new file using the helper
             $filePath = Helper::fileUpload($request->file('file'), 'pdfs', $request->title ?? $data->title);
             $data->file_path = $filePath;
         }
 
-        $data->save(); // Save the updated record
+        $data->save();
 
         return redirect()->route('pdf.index')->with('notify-success', 'PDF Updated Successfully');
     }
 
-
-
-
-//    public function update(Request $request, $id)
-//    {
-//        $request->validate([
-//            'title' => 'sometimes|string|max:255',
-//            'file' => 'sometimes|mimes:pdf|max:2048',
-//        ]);
-//
-//        $data = Pdf::find($id);
-//        $data->title = $request->title;
-//        if ($request->hasFile('file')) {
-//            // Delete old file
-//            Storage::disk('public')->delete($data->file_path);
-//
-//            // Upload new file
-//            $filePath = $request->file('file')->store('pdfs', 'public');
-//            $data->file_path = $filePath;
-//        }
-//        $data->save();
-//
-//        return redirect()->route('pdf.index')->with('notify-success', 'Pdf Updated Successfully');
-//    }
-
     /**
-     * Remove the specified resource from storage.
+     * Delete the specified PDF from the database and remove its file from the public directory.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
      */
-
-
     public function destroy($id)
     {
         $data = Pdf::findOrFail($id);
-        Storage::disk('public')->delete($data->file_path);
+
+        // Check and delete the file from the public directory
+        if ($data->file_path && file_exists(public_path($data->file_path))) {
+            unlink(public_path($data->file_path));
+        }
+
+        // Delete the database record
         $data->delete();
 
         return response()->json([
@@ -206,10 +157,11 @@ class PdfController extends Controller
         ]);
     }
 
+
     /**
-     * Update the status of a category.
+     * Update the status of a PDF.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param string $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function status($id)
@@ -222,7 +174,7 @@ class PdfController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Unpublished Successfully.',
-                'data'    => $data,
+                'data' => $data,
             ]);
         } else {
             $data->status = 'active';
@@ -230,11 +182,17 @@ class PdfController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Published Successfully.',
-                'data'    => $data,
+                'data' => $data,
             ]);
         }
     }
 
+    /**
+     * Download the specified PDF.
+     *
+     * @param string $id
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
     public function download($id)
     {
         $data = Pdf::findOrFail($id);
