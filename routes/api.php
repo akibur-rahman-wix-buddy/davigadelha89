@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\PdfController;
 use App\Http\Controllers\Api\WishlistController;
 use Illuminate\Http\Request;
@@ -46,6 +47,8 @@ Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'handlePro
 
 //Route for Category controller
 Route::get('/category', [CategoryController::class, 'index']);
+
+Route::get('/courses', [CourseController::class, 'index']);
 
 
 Route::group(['middleware' => 'jwt.auth'], function() {

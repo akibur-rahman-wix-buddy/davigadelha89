@@ -87,7 +87,7 @@
         }
 
         .dropify-wrapper:hover {
-            background-color: #10101C !important; /* Dark background on hover */
+            background-color: white !important; /* Dark background on hover */
             color: #bbb !important; /* Gray text on hover */
         }
 
