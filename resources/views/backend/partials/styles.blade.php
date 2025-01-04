@@ -103,6 +103,25 @@
 
 {{--only used in dark-mode class ends--}}
 
+{{--only used in dark-mode footer start--}}
+<style>
+    body.dark-only footer {
+        background-color: #141524 !important; /* Dark background */
+        color: #e0e0e0 !important; /* White text */
+    }
+
+    /* Optional: Ensure links in the footer are also styled appropriately */
+    body.dark-only footer a {
+        color: #1e90ff !important; /* Light blue for links */
+        text-decoration: none; /* Remove underline */
+    }
+
+    body.dark-only footer a:hover {
+        color: #ffd700 !important; /* Gold color for links on hover */
+    }
+
+</style>
+{{--only used in dark-mode footer ends--}}
 
 
 
