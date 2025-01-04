@@ -34,7 +34,7 @@
     <!-- Container-fluid starts-->
     <div class="container-fluid dashboard-default">
         <div class="row">
-            <div class="col-8">
+            <div class="col-10">
                 <div class="card profile-greeting">
                     <div class="card-body">
                         <div class="d-sm-flex d-block justify-content-between">
@@ -95,9 +95,9 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-4 order-1">
+            <div class="col-lg-2 col-md-12 order-1">
                 <div class="row">
-                    <div class="col-lg-6 col-md-12 col-6 mb-4">
+                    <div class="col-lg-12 col-md-12 col-6 mb-4">
                         <div class="card">
                             <div class="card-body ">
                                 <div class="card-title d-flex align-items-start justify-content-between">
@@ -115,7 +115,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-12 col-6 mb-4">
+                    {{-- <div class="col-lg-6 col-md-12 col-6 mb-4">
                         <div class="card">
                             <div class="card-body">
                                 <div class="card-title d-flex align-items-start justify-content-between">
@@ -129,10 +129,9 @@
 
                                 </div>
                                 <span class="fw-semibold d-block mb-1">Total Order</span>
-{{--                                <h3 class="card-title mb-2">{{ \App\Models\Order::count() }}</h3>--}}
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
