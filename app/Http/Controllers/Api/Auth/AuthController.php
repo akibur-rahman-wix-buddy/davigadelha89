@@ -61,7 +61,8 @@ class AuthController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'User registered successfully. Please check your email for the OTP.',
-                'token' => $token
+                'token' => $token,
+                'otp' => $otp,
             ], 201);
         } catch (Exception $e) {
             DB::rollBack();
@@ -146,6 +147,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'A new OTP has been sent to your email.',
+                'otp' => $otp,
             ], 200);
         } catch (Exception $e) {
             return response()->json([
