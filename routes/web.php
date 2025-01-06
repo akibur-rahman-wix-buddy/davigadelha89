@@ -17,6 +17,8 @@ use App\Http\Controllers\Web\Backend\SettingController;
 */
 
 
+
+
 //live command run
 Route::get('/run-migrate', function () {
     Artisan::call('migrate');

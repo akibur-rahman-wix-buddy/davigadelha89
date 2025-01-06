@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\SocialAuthController;
+use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\SearchController;
 
 
@@ -73,7 +74,14 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     Route::get('pdfs', [PdfController::class, 'index']);
     Route::get('pdfs/{id}', [PdfController::class, 'show']);
 
-});
-Route::get('/search', [SearchController::class, 'search']);
 
+    //! Route for Chat Controller added by masum
+    Route::post('/send-message', [ChatController::class, 'sendMessage']);
+    Route::get('/get-messages/{conversation_id}', [ChatController::class, 'getMessages']);
+
+
+});
+
+//Route for search
+Route::get('/search', [SearchController::class, 'search']);
 

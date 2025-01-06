@@ -19,9 +19,25 @@ use Illuminate\Support\Facades\Broadcast;
 }); */
 
 
-Broadcast::channel('chat.{conversation_id}', function ($user, $conversation_id) {
-    $conversation = ChatGroup::find($conversation_id);
-    return (int) $user->id === (int) $conversation?->user_one_id || (int) $user->id === (int) $conversation?->user_two_id;
+Broadcast::channel('chat.{receiver_id}', function ($user, $receiver_id) {
+    return (int) $user->id === (int) $receiver_id;
 });
+
+
+
+
+
+
+//!! It's from chatgpt for group chat
+// public function join(User $user, $conversation_id): bool
+// {
+//     $conversation = ChatGroup::find($conversation_id);
+
+//     if ((int) $user->id === (int) $conversation->user_one_id || (int) $user->id === (int) $conversation->user_two_id) {
+//         return true;
+//     }
+
+//     return false;
+// }
 
 

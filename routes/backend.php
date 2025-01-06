@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\Backend\Category\CategoryController;
+use App\Http\Controllers\Web\Backend\Chat\ChatController;
 use App\Http\Controllers\Web\Backend\Course\CourseController;
 use App\Http\Controllers\Web\Backend\Pdf\PdfController;
 use App\Http\Controllers\Web\Backend\Settings\CustomScriptController;
@@ -80,6 +81,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/course/status/{id}', [CourseController::class, 'status'])->name('course.status');
     Route::delete('/course/destroy/{id}', [CourseController::class, 'destroy'])->name('course.destroy');
 
+    //!! Route for Chat Controller
+    Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('send-message.sendMessage');
+    Route::get('/get-messages/{conversation_id}', [ChatController::class, 'getMessages'])->name('get-messages.getMessages');
 
     //!! Route for Pdf Controller
     Route::get('/pdf', [PdfController::class, 'index'])->name('pdf.index');
@@ -90,6 +94,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/pdf/update/{id}', [PdfController::class, 'update'])->name('pdf.update');
     Route::get('/pdf/status/{id}', [PdfController::class, 'status'])->name('pdf.status');
     Route::delete('/pdf/destroy/{id}', [PdfController::class, 'destroy'])->name('pdf.destroy');
+
+
+    Route::get('/test', function () {
+        return view('backend.layouts.chat.sendMessage');
+    });
 
 
 });

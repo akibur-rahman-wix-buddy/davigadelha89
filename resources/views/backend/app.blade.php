@@ -15,6 +15,8 @@
 
     @include('backend.partials.styles')
 
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
 </head>
 <body onload="startTime()" class="dark-only">
 <!-- tap on top starts-->

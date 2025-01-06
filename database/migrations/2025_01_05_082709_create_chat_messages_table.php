@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('receiver_id')->constrained('users')->onDelete('cascade');
             $table->text('text');
             $table->enum('status', ['sent', 'read', 'unread'])->default('unread');
+            // $table->foreignId('chat_group_id')->constrained('chat_groups')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
