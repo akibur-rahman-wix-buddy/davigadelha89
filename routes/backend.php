@@ -82,8 +82,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/course/destroy/{id}', [CourseController::class, 'destroy'])->name('course.destroy');
 
     //!! Route for Chat Controller
-    Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('send-message.sendMessage');
-    Route::get('/get-messages/{conversation_id}', [ChatController::class, 'getMessages'])->name('get-messages.getMessages');
+    // Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('send-message.sendMessage');
+    // Route::get('/get-messages/{conversation_id}', [ChatController::class, 'getMessages'])->name('get-messages.getMessages');
+
+    //!! Route for Test
+    // Route::get('/test', function () {
+    //     return view('backend.layouts.chat.sendMessage');
+    // });
+
 
     //!! Route for Pdf Controller
     Route::get('/pdf', [PdfController::class, 'index'])->name('pdf.index');
@@ -96,9 +102,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/pdf/destroy/{id}', [PdfController::class, 'destroy'])->name('pdf.destroy');
 
 
-    Route::get('/test', function () {
-        return view('backend.layouts.chat.sendMessage');
-    });
+    
 
 
 });

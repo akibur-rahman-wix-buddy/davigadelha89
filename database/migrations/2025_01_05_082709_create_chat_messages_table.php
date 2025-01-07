@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('chat_messages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('sender_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('receiver_id')->constrained('users')->onDelete('cascade');
-            $table->text('text');
+            $table->foreignId('receiver_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->text('text')->nullable();
             $table->enum('status', ['sent', 'read', 'unread'])->default('unread');
             // $table->foreignId('chat_group_id')->constrained('chat_groups')->onDelete('cascade');
             $table->timestamps();

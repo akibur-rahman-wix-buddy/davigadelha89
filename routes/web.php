@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\Backend\Chat\ChatController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\Backend\ClothingController;
@@ -52,5 +53,8 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function () {
 
 });
+
+Route::get('/send-message', [ChatController::class, 'sendMessage'])->name('send-message');
+Route::get('/chat', [ChatController::class, 'showChatForm'])->name('chat.form');
 
 require __DIR__ . '/auth.php';

@@ -214,7 +214,7 @@
                             href="javascript:void(0)"><i data-feather="box"></i><span>Chat</span></a>
                         <ul class="sidebar-submenu">
                             <li><a class="{{ Request::routeIs('send-message.sendMessage') ? 'active' : ' ' }}"
-                                    href="{{ route('send-message.sendMessage') }}">Chat Message</a></li>
+                                    href="{{ route('send-message') }}">Chat Message</a></li>
                         </ul>
                     </li>
 
