@@ -48,7 +48,11 @@ class CategoryController extends Controller
                                 </a>
                                 </div>';
                 })
-                ->rawColumns(['status', 'action'])
+                ->addColumn('category_icon', function ($data) {
+                    $url = asset($data->category_icon);
+                    return '<img src="' . $url . '" alt="image" width="50px" height="50px" style="margin-left:20px;">';
+                })
+                ->rawColumns(['status', 'action','category_icon'])
                 ->make(true);
         }
 
@@ -70,9 +74,11 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|unique:categories|max:255',
+            'category_name' => 'required|unique:categories|max:255',
+            'category_icon' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:20348',
             'status' => 'required|in:active,inactive',
         ]);
+
 
         $category = new Category();
         $category->name = $request->name;
